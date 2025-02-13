@@ -3,10 +3,18 @@ local VORPcore = exports.vorp_core:GetCore()
 exports.vorp_inventory:registerUsableItem(Config.ChopItem, function(data)
     local src = data.source
     local ItemId = data.item.mainid
-    TriggerClientEvent('mms-lumberjack:client:ToolOut',src,ItemId)
+    local UsedItem = Config.ChopItem
+    TriggerClientEvent('mms-lumberjack:client:ToolOut',src,ItemId,UsedItem)
 end)
 
-RegisterServerEvent('mms-lumberjack:server:FinishChoppinglumber',function(ToolId,Durability)
+exports.vorp_inventory:registerUsableItem(Config.ChopItem2, function(data)
+    local src = data.source
+    local ItemId = data.item.mainid
+    local UsedItem = Config.ChopItem2
+    TriggerClientEvent('mms-lumberjack:client:ToolOut',src,ItemId,UsedItem)
+end)
+
+RegisterServerEvent('mms-lumberjack:server:FinishChoppinglumber',function(ToolId,CurrentItem)
     local src = source
     local Character = VORPcore.getUser(src).getUsedCharacter
     local Name = Character.firstname .. ' ' .. Character.lastname
@@ -99,7 +107,7 @@ end
             end
         else
             exports.vorp_inventory:setItemMetadata(src, ToolId, { description = _U('Durability') .. NewDurability, lumberdurability =  NewDurability }, 1, nil)
-            local NewItemID = exports.vorp_inventory:getItem(src, Config.ChopItem,nil, { description = _U('Durability') .. NewDurability, lumberdurability =  NewDurability })
+            local NewItemID = exports.vorp_inventory:getItem(src, CurrentItem,nil, { description = _U('Durability') .. NewDurability, lumberdurability =  NewDurability })
             local NewToolId = NewItemID.id
             TriggerClientEvent('mms-lumberjack:client:UpdateItemId',src,NewToolId)
         end
@@ -107,7 +115,7 @@ end
         local Durability = Config.ItemMaxUses - Config.ItemUsage
         exports.vorp_inventory:setItemMetadata(src, ToolId, { description = _U('Durability') .. Durability, lumberdurability =  Durability }, 1, nil)
         Citizen.Wait(150)
-        local NewItemID = exports.vorp_inventory:getItem(src, Config.ChopItem,nil, { description = _U('Durability') .. Durability, lumberdurability =  Durability })
+        local NewItemID = exports.vorp_inventory:getItem(src, CurrentItem,nil, { description = _U('Durability') .. Durability, lumberdurability =  Durability })
         local NewToolId = NewItemID.id
         TriggerClientEvent('mms-lumberjack:client:UpdateItemId',src,NewToolId)
     end

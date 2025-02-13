@@ -9,14 +9,13 @@ local Chopped = false
 
 local Toolout = false
 local ToolId = nil
-local Durability = nil
-
+local CurrentItem = nil
 -- Axe out
 
 RegisterNetEvent('mms-lumberjack:client:ToolOut')
-AddEventHandler('mms-lumberjack:client:ToolOut',function(ItemId,CurrentDurability)
+AddEventHandler('mms-lumberjack:client:ToolOut',function(ItemId,UsedItem)
     ToolId = ItemId
-    Durability = CurrentDurability
+    CurrentItem = UsedItem
     MyPed = PlayerPedId()
     if not Toolout then
         Wait(500)
@@ -83,7 +82,7 @@ while true do
                 Choplumber:TogglePrompt(false)
                 Wait(200)
                 Choplumber:TogglePrompt(true)
-                TriggerEvent('mms-lumberjack:client:Choplumber',ToolId,Durability)
+                TriggerEvent('mms-lumberjack:client:Choplumber',ToolId)
             end
             Chopped = false
         end
@@ -98,13 +97,13 @@ end)
 -- Getting lumber
 
 RegisterNetEvent('mms-lumberjack:client:Choplumber')
-AddEventHandler('mms-lumberjack:client:Choplumber',function(ToolId,Durability)
+AddEventHandler('mms-lumberjack:client:Choplumber',function(ToolId)
     Citizen.Wait(100)
     local MyPed = PlayerPedId()
     Anim(MyPed, "amb_work@world_human_tree_chop_new@working@pre_swing@male_a@trans", "pre_swing_trans_after_swing",
     -1, 7)
     Progressbar(Config.ChopTime,_U('WorkingHere'))
-    TriggerServerEvent('mms-lumberjack:server:FinishChoppinglumber',ToolId,Durability)
+    TriggerServerEvent('mms-lumberjack:server:FinishChoppinglumber',ToolId,CurrentItem)
 end)
 
 --- Refresh Them
