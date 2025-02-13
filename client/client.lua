@@ -10,12 +10,14 @@ local Chopped = false
 local Toolout = false
 local ToolId = nil
 local CurrentItem = nil
+local CurrentItemMaxUses = nil
 -- Axe out
 
 RegisterNetEvent('mms-lumberjack:client:ToolOut')
-AddEventHandler('mms-lumberjack:client:ToolOut',function(ItemId,UsedItem)
+AddEventHandler('mms-lumberjack:client:ToolOut',function(ItemId,UsedItem,MaxUses)
     ToolId = ItemId
     CurrentItem = UsedItem
+    CurrentItemMaxUses = MaxUses
     MyPed = PlayerPedId()
     if not Toolout then
         Wait(500)
@@ -103,7 +105,7 @@ AddEventHandler('mms-lumberjack:client:Choplumber',function(ToolId)
     Anim(MyPed, "amb_work@world_human_tree_chop_new@working@pre_swing@male_a@trans", "pre_swing_trans_after_swing",
     -1, 7)
     Progressbar(Config.ChopTime,_U('WorkingHere'))
-    TriggerServerEvent('mms-lumberjack:server:FinishChoppinglumber',ToolId,CurrentItem)
+    TriggerServerEvent('mms-lumberjack:server:FinishChoppinglumber',ToolId,CurrentItem,CurrentItemMaxUses)
 end)
 
 --- Refresh Them

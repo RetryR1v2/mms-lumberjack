@@ -4,17 +4,19 @@ exports.vorp_inventory:registerUsableItem(Config.ChopItem, function(data)
     local src = data.source
     local ItemId = data.item.mainid
     local UsedItem = Config.ChopItem
-    TriggerClientEvent('mms-lumberjack:client:ToolOut',src,ItemId,UsedItem)
+    local MaxUses = Config.ItemMaxUses
+    TriggerClientEvent('mms-lumberjack:client:ToolOut',src,ItemId,UsedItem,MaxUses)
 end)
 
 exports.vorp_inventory:registerUsableItem(Config.ChopItem2, function(data)
     local src = data.source
     local ItemId = data.item.mainid
     local UsedItem = Config.ChopItem2
-    TriggerClientEvent('mms-lumberjack:client:ToolOut',src,ItemId,UsedItem)
+    local MaxUses = Config.ItemMaxUses2
+    TriggerClientEvent('mms-lumberjack:client:ToolOut',src,ItemId,UsedItem,MaxUses)
 end)
 
-RegisterServerEvent('mms-lumberjack:server:FinishChoppinglumber',function(ToolId,CurrentItem)
+RegisterServerEvent('mms-lumberjack:server:FinishChoppinglumber',function(ToolId,CurrentItem,CurrentItemMaxUses)
     local src = source
     local Character = VORPcore.getUser(src).getUsedCharacter
     local Name = Character.firstname .. ' ' .. Character.lastname
@@ -112,7 +114,7 @@ end
             TriggerClientEvent('mms-lumberjack:client:UpdateItemId',src,NewToolId)
         end
     else
-        local Durability = Config.ItemMaxUses - Config.ItemUsage
+        local Durability = CurrentItemMaxUses - Config.ItemUsage
         exports.vorp_inventory:setItemMetadata(src, ToolId, { description = _U('Durability') .. Durability, lumberdurability =  Durability }, 1, nil)
         Citizen.Wait(150)
         local NewItemID = exports.vorp_inventory:getItem(src, CurrentItem,nil, { description = _U('Durability') .. Durability, lumberdurability =  Durability })
