@@ -18,6 +18,7 @@
 - 1.1.0 Initial Release Version
 - 1.1.1 Added Second Item
 - 1.1.2 Added Town Restriction. ( Can Set any Distance per Town )
+- Fixed Multiplier Bug where you can get Half Items
 
 # installation 
 
