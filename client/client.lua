@@ -11,6 +11,9 @@ local Toolout = false
 local ToolId = nil
 local CurrentItem = nil
 local CurrentItemMaxUses = nil
+local InTown = false
+local TownName = nil
+
 -- Axe out
 
 RegisterNetEvent('mms-lumberjack:client:ToolOut')
@@ -78,13 +81,17 @@ while true do
             ChoplumberPrompt:ShowGroup(_U('Tree'))
             
             if Choplumber:HasCompleted() then
-                Wait(200)
-                Choppedlumber[#Choppedlumber + 1] = PlayerCoords
-                ChoppedlumberProps = true
-                Choplumber:TogglePrompt(false)
-                Wait(200)
-                Choplumber:TogglePrompt(true)
-                TriggerEvent('mms-lumberjack:client:Choplumber',ToolId)
+                if not InTown then
+                    Wait(200)
+                    Choppedlumber[#Choppedlumber + 1] = PlayerCoords
+                    ChoppedlumberProps = true
+                    Choplumber:TogglePrompt(false)
+                    Wait(200)
+                    Choplumber:TogglePrompt(true)
+                    TriggerEvent('mms-lumberjack:client:Choplumber',ToolId)
+                else
+                    VORPcore.NotifyTip(_U('InHere') .. TownName .. _U('YouCantChop'),5000)
+                end
             end
             Chopped = false
         end
@@ -125,8 +132,41 @@ Citizen.CreateThread(function()
     end
 end)
 
+--- In Town Check
 
+RegisterNetEvent('vorp:SelectedCharacter')
+AddEventHandler('vorp:SelectedCharacter', function()
+    Citizen.Wait(10000)
+    if Config.TownRestriction then
+        TriggerEvent('mms-lumberjack:client:TownCheck')
+    end
+end)
 
+RegisterNetEvent('mms-lumberjack:client:TownCheck')
+AddEventHandler('mms-lumberjack:client:TownCheck',function()
+    while true do
+        local CloseTown = 0
+        Citizen.Wait(3000)
+        local MyCoords = GetEntityCoords(PlayerPedId())
+        for h,v in ipairs(Config.Towns) do
+            local Distance = #(MyCoords - v.Town)
+            if Distance <= v.TownDistance then
+                CloseTown = 1
+                TownName = v.TownName
+            end
+        end
+        if CloseTown > 0 then
+            InTown = true
+        elseif CloseTown == 0 then
+            InTown = false
+        end
+    end
+end)
+
+if Config.Debug then
+    Citizen.Wait(2000)
+    TriggerEvent('mms-lumberjack:client:TownCheck')
+end
 
 ----------------- Utilities -----------------
 

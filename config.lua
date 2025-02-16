@@ -2,6 +2,7 @@ Config = {}
 
 Config.defaultlang = "de_lang"
 Config.LatestVORPInvetory = true -- Make you to Check your Version if you Are Up to Date Else set it to false
+Config.Debug = false
 
 -- Webhook Settings
 
@@ -18,6 +19,53 @@ Config.WHAvatar = '' -- must be 30x30px
 -- Script Settings
 
 Config.ResetLumberTimer = 1 -- Time in minute to Reset Lumber
+
+Config.ChopItem = 'hoe' -- Make sure its not used in Another Script in case it get Buggy then 
+Config.ChopItem2 = 'stonehatchet' -- Make sure its not used in Another Script in case it get Buggy then
+Config.ItemUsage = 1 -- Usage Per Swing
+Config.ItemMaxUses = 250 -- Max Durability
+Config.ItemMaxUses2 = 250 -- Max Durability
+Config.ChopTime = 3500  -- Time in MS 5000 = 5 Sec
+Config.ToolHash = 'p_axe02x' -- Axt Model
+
+Config.AlwaysGetItem = true -- If You wanna Always get an Item
+Config.AlwaysItem = 'hwood' -- item to Get.
+Config.AlwaysItemLabel = 'Weichholz' -- item Label
+Config.AlwaysItemAmount = 4 -- Get 4 Every Swing no Empty Swings
+
+Config.LuckyItems = true
+Config.LuckyChance = 6 -- 1 = 10% , 2 = 20% ....
+Config.LuckyItemsTable = {
+    { Item = 'salt', Label = 'Salz', Amount = 4 },
+    { Item = 'salt', Label = 'Salz', Amount = 4 },
+    { Item = 'rock', Label = 'Stein', Amount = 4 },
+}
+
+Config.JobMultiplier = true
+
+Config.JobBonus = {
+    { Job = 'farmer', Multiplier = 2.0 },  -- 1 = 100% if you got on 0.5 then it makes less Reward for this Job so you can give more or Lower in case of job
+    { Job = 'hunter', Multiplier = 1.5 },
+    { Job = 'schmied1', Multiplier = 1.4 },
+}
+
+--- Its always the Center of Town and The Distance is a Radius from the Middle so if its a small town like strawberry its like 50
+--- A Bigger Town like Saint Denise needs 400 Meters. you need to test
+
+Config.TownRestriction = true
+
+Config.Towns = {  
+    { Town = vector3(-281.13, 715.79, 113.93),      TownDistance = 250,  TownName = 'Valentine' }, -- Valentine
+    { Town = vector3(1341.21, -1277.12, 76.94),     TownDistance = 200,  TownName = 'Rhodes' }, -- Rhodes
+    { Town = vector3(-1798.92, -457.03, 159.48),    TownDistance = 200,  TownName = 'Strawberry' }, -- Strawberry
+    { Town = vector3(-850.22, -1298.28, 43.37),     TownDistance = 300,  TownName = 'Blackwater' }, -- Blackwater
+    { Town = vector3(2919.48, 1368.80, 45.24),      TownDistance = 400,  TownName = 'Annesburg' }, -- Annesburg
+    { Town = vector3(2962.95, 547.93, 44.50),       TownDistance = 210,  TownName = 'Van Horn' }, -- Van Horn
+    { Town = vector3(2613.23, -1216.01, 53.39),     TownDistance = 700,  TownName = 'Saint Denise' }, -- Saint Denise
+    { Town = vector3(-5506.68, -2941.55, -1.80),    TownDistance = 550,  TownName = 'Tumbleweed' }, -- Tumbleweed
+    { Town = vector3(-3689.10, -2609.74, -14.03),   TownDistance = 350,  TownName = 'Armadillo' }, -- Armadillo
+}
+
 
 Config.LumberProps = {
     { Prop = 'rdr2_bush_beavertailLumber_02' },
@@ -295,33 +343,4 @@ Config.LumberProps = {
     { Prop = 'p_tree_stump_02_swamp' },
     { Prop = 'p_sap_cypress_aa_sim' },
     { Prop = 'p_sap_cypress_ab_sim' },
-}
-
-Config.ChopItem = 'hoe' -- Make sure its not used in Another Script in case it get Buggy then 
-Config.ChopItem2 = 'stonehatchet' -- Make sure its not used in Another Script in case it get Buggy then
-Config.ItemUsage = 1 -- Usage Per Swing
-Config.ItemMaxUses = 250 -- Max Durability
-Config.ItemMaxUses2 = 250 -- Max Durability
-Config.ChopTime = 3500  -- Time in MS 5000 = 5 Sec
-Config.ToolHash = 'p_axe02x' -- Axt Model
-
-Config.AlwaysGetItem = true -- If You wanna Always get an Item
-Config.AlwaysItem = 'wood' -- item to Get.
-Config.AlwaysItemLabel = 'Weichholz' -- item Label
-Config.AlwaysItemAmount = 4 -- Get 4 Every Swing no Empty Swings
-
-Config.LuckyItems = true
-Config.LuckyChance = 6 -- 1 = 10% , 2 = 20% ....
-Config.LuckyItemsTable = {
-    { Item = 'salt', Label = 'Salz', Amount = 4 },
-    { Item = 'hwood', Label = 'Hartholz', Amount = 4 },
-    { Item = 'rock', Label = 'Stein', Amount = 4 },
-}
-
-Config.JobMultiplier = true
-
-Config.JobBonus = {
-    { Job = 'farmer', Multiplier = 2.0 },  -- 1 = 100% if you got on 0.5 then it makes less Reward for this Job so you can give more or Lower in case of job
-    { Job = 'hunter', Multiplier = 1.5 },
-    { Job = 'schmied', Multiplier = 2.5 },
 }
