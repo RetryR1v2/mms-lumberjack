@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-field
 local VORPcore = exports.vorp_core:GetCore()
 
 exports.vorp_inventory:registerUsableItem(Config.ChopItem, function(data)
@@ -30,7 +31,6 @@ RegisterServerEvent('mms-lumberjack:server:FinishChoppinglumber',function(ToolId
     if Config.JobMultiplier then
         if Config.AlwaysGetItem then
             local Round = math.floor(Config.AlwaysItemAmount  * Multiplier)
-            print(Round)
             local CanCarryItem = exports.vorp_inventory:canCarryItem(src, Config.AlwaysItem, Round)
             if CanCarryItem then
                 exports.vorp_inventory:addItem(src, Config.AlwaysItem, Round)
@@ -97,31 +97,49 @@ RegisterServerEvent('mms-lumberjack:server:FinishChoppinglumber',function(ToolId
     end
 end
     --- Remove Tool / Tool Durability
-    local ItemData = exports.vorp_inventory:getItemById(src, ToolId)
-    if ItemData.metadata.lumberdurability ~= nil then
-        local NewDurability = ItemData.metadata.lumberdurability - Config.ItemUsage
-        if NewDurability < Config.ItemUsage then
-            if not Config.LatestVORPInvetory then
-                exports.vorp_inventory:subItemID(src, ToolId)
-                TriggerClientEvent('mms-lumberjack:client:ToolOut',src,ToolId)
-                VORPcore.NotifyRightTip(src,_U('ToolBroken'),5000)
-            else
+    if Config.LatestVORPInvetory then
+        local ItemData = exports.vorp_inventory:getItemById(src, ToolId)
+        if ItemData.metadata.lumberdurability ~= nil then
+            local NewDurability = ItemData.metadata.lumberdurability - Config.ItemUsage
+            if NewDurability < Config.ItemUsage then
                 exports.vorp_inventory:subItemById(src, ToolId,nil,nil,1)
                 TriggerClientEvent('mms-lumberjack:client:ToolOut',src,ToolId)
                 VORPcore.NotifyRightTip(src,_U('ToolBroken'),5000)
+            else
+                exports.vorp_inventory:setItemMetadata(src, ToolId, { description = _U('Durability') .. NewDurability, lumberdurability =  NewDurability }, 1, nil)
+                local NewItemID = exports.vorp_inventory:getItem(src, CurrentItem,nil, { description = _U('Durability') .. NewDurability, lumberdurability =  NewDurability })
+                local NewToolId = NewItemID.id
+                TriggerClientEvent('mms-lumberjack:client:UpdateItemId',src,NewToolId)
             end
         else
-            exports.vorp_inventory:setItemMetadata(src, ToolId, { description = _U('Durability') .. NewDurability, lumberdurability =  NewDurability }, 1, nil)
-            local NewItemID = exports.vorp_inventory:getItem(src, CurrentItem,nil, { description = _U('Durability') .. NewDurability, lumberdurability =  NewDurability })
+            local Durability = CurrentItemMaxUses - Config.ItemUsage
+            exports.vorp_inventory:setItemMetadata(src, ToolId, { description = _U('Durability') .. Durability, lumberdurability =  Durability }, 1, nil)
+            Citizen.Wait(150)
+            local NewItemID = exports.vorp_inventory:getItem(src, CurrentItem,nil, { description = _U('Durability') .. Durability, lumberdurability =  Durability })
             local NewToolId = NewItemID.id
             TriggerClientEvent('mms-lumberjack:client:UpdateItemId',src,NewToolId)
         end
     else
-        local Durability = CurrentItemMaxUses - Config.ItemUsage
-        exports.vorp_inventory:setItemMetadata(src, ToolId, { description = _U('Durability') .. Durability, lumberdurability =  Durability }, 1, nil)
-        Citizen.Wait(150)
-        local NewItemID = exports.vorp_inventory:getItem(src, CurrentItem,nil, { description = _U('Durability') .. Durability, lumberdurability =  Durability })
-        local NewToolId = NewItemID.id
-        TriggerClientEvent('mms-lumberjack:client:UpdateItemId',src,NewToolId)
+        local ItemData = exports.vorp_inventory:getItemByMainId(src, ToolId)
+        if ItemData.metadata.lumberdurability ~= nil then
+            local NewDurability = ItemData.metadata.lumberdurability - Config.ItemUsage
+            if NewDurability < Config.ItemUsage then
+                exports.vorp_inventory:subItemID(src, ToolId)
+                TriggerClientEvent('mms-lumberjack:client:ToolOut',src,ToolId)
+                VORPcore.NotifyRightTip(src,_U('ToolBroken'),5000)
+            else
+                exports.vorp_inventory:setItemMetadata(src, ToolId, { description = _U('Durability') .. NewDurability, lumberdurability =  NewDurability }, 1, nil)
+                local NewItemID = exports.vorp_inventory:getItem(src, CurrentItem,nil, { description = _U('Durability') .. NewDurability, lumberdurability =  NewDurability })
+                local NewToolId = NewItemID.id
+                TriggerClientEvent('mms-lumberjack:client:UpdateItemId',src,NewToolId)
+            end
+        else
+            local Durability = CurrentItemMaxUses - Config.ItemUsage
+            exports.vorp_inventory:setItemMetadata(src, ToolId, { description = _U('Durability') .. Durability, lumberdurability =  Durability }, 1, nil)
+            Citizen.Wait(150)
+            local NewItemID = exports.vorp_inventory:getItem(src, CurrentItem,nil, { description = _U('Durability') .. Durability, lumberdurability =  Durability })
+            local NewToolId = NewItemID.id
+            TriggerClientEvent('mms-lumberjack:client:UpdateItemId',src,NewToolId)
+        end
     end
 end)
