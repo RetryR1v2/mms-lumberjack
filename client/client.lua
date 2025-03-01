@@ -43,6 +43,18 @@ AddEventHandler('mms-lumberjack:client:ToolOut',function(ItemId,UsedItem,MaxUses
     end
 end)
 
+-- RepairTool
+
+RegisterNetEvent('mms-lumberjack:client:RepairTool')
+AddEventHandler('mms-lumberjack:client:RepairTool',function()
+    if Toolout then
+        TriggerServerEvent('mms-lumberjack:server:RepairTool',ToolId,CurrentItemMaxUses)
+        Progressbar(Config.RepairTime * 1000 ,_U('RepairingTool'))
+    else
+        VORPcore.NotifyTip(_U('NoToolInHand'),5000)
+    end
+end)
+
 --- Get New ToolID
 
 RegisterNetEvent('mms-lumberjack:client:UpdateItemId')

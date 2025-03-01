@@ -28,6 +28,16 @@ Config.ItemMaxUses2 = 250 -- Max Durability
 Config.ChopTime = 3500  -- Time in MS 5000 = 5 Sec
 Config.ToolHash = 'p_axe02x' -- Axt Model
 
+-- Repair Sytem 
+
+Config.RepairItem = 'rock' -- Item To Repair the Tool
+Config.RepairItemUsage = 1 -- 1 Item Needed to Repair
+Config.RepairAmount = 150 -- How Much Durability Should be added.
+Config.RepairTime = 5 -- Time in Sec
+Config.CanMoreThenMaxUses = true
+
+-- Reward System
+
 Config.AlwaysGetItem = true -- If You wanna Always get an Item
 Config.AlwaysItem = 'hwood' -- item to Get.
 Config.AlwaysItemLabel = 'Weichholz' -- item Label
