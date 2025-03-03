@@ -51,7 +51,7 @@ RegisterServerEvent('mms-lumberjack:server:RepairTool',function(ToolId,CurrentIt
         end
     else
         local ItemData = exports.vorp_inventory:getItemByMainId(src, ToolId)
-        if ItemData.metadata.lumberdurability ~= nil then
+        if ItemData ~= nil and ItemData.metadata.lumberdurability ~= nil then
             local NewDurability = ItemData.metadata.lumberdurability + Config.RepairAmount
             if NewDurability >= CurrentItemMaxUses then
                 exports.vorp_inventory:setItemMetadata(src, ToolId, { description = _U('Durability') .. CurrentItemMaxUses, lumberdurability =  CurrentItemMaxUses }, 1, nil)
