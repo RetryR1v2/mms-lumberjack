@@ -1,7 +1,7 @@
 Config = {}
 
 Config.defaultlang = "de_lang"
-Config.LatestVORPInvetory = true -- Make you to Check your Version if you Are Up to Date Else set it to false
+Config.LatestVORPInvetory = false -- Make you to Check your Version if you Are Up to Date Else set it to false
 Config.Debug = false
 
 -- Webhook Settings

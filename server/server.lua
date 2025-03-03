@@ -33,7 +33,7 @@ RegisterServerEvent('mms-lumberjack:server:RepairTool',function(ToolId,CurrentIt
 
     if Config.LatestVORPInvetory then
         local ItemData = exports.vorp_inventory:getItemById(src, ToolId)
-        if ItemData.metadata.lumberdurability ~= nil then
+        if ItemData ~= nil and ItemData.metadata.lumberdurability ~= nil then
             local NewDurability = ItemData.metadata.lumberdurability + Config.RepairAmount
             if NewDurability >= CurrentItemMaxUses then
                 exports.vorp_inventory:setItemMetadata(src, ToolId, { description = _U('Durability') .. CurrentItemMaxUses, lumberdurability =  CurrentItemMaxUses }, 1, nil)
@@ -152,7 +152,7 @@ end
     --- Remove Tool / Tool Durability
     if Config.LatestVORPInvetory then
         local ItemData = exports.vorp_inventory:getItemById(src, ToolId)
-        if ItemData.metadata.lumberdurability ~= nil then
+        if ItemData ~= nil and ItemData.metadata.lumberdurability ~= nil then
             local NewDurability = ItemData.metadata.lumberdurability - Config.ItemUsage
             if NewDurability < Config.ItemUsage then
                 exports.vorp_inventory:subItemById(src, ToolId,nil,nil,1)
@@ -174,7 +174,7 @@ end
         end
     else
         local ItemData = exports.vorp_inventory:getItemByMainId(src, ToolId)
-        if ItemData.metadata.lumberdurability ~= nil then
+        if ItemData ~= nil and ItemData.metadata.lumberdurability ~= nil then
             local NewDurability = ItemData.metadata.lumberdurability - Config.ItemUsage
             if NewDurability < Config.ItemUsage then
                 exports.vorp_inventory:subItemID(src, ToolId)
