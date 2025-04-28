@@ -22,6 +22,7 @@
 - 1.1.3 Added Support for Older VORP Invetory Version
 - 1.1.4 Added Repair Tool Function
 - 1.1.5 BugFix
+- 1.1.6 BugFix
 
 # installation 
 

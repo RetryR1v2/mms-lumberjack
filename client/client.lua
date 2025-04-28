@@ -55,6 +55,32 @@ AddEventHandler('mms-lumberjack:client:RepairTool',function()
     end
 end)
 
+-- Check Player Status
+Citizen.CreateThread(function()
+    local MyPed = PlayerPedId()
+    while true do
+        Citizen.Wait(5000)
+        if Toolout then
+            CanDoWork = CanWork(MyPed)
+            if not CanDoWork then
+                TriggerEvent('mms-lumberjack:client:ToolOut')
+            end
+        end
+    end
+end)
+
+function CanWork (MyPed)
+    local Dead = IsPedDeadOrDying(MyPed)
+    local OnHorse = IsPedOnMount(MyPed)
+    local OnWagon = IsPedOnVehicle(MyPed)
+    local InWater = IsPedSwimmingUnderWater(MyPed)
+    if not Dead and not OnHorse and not OnWagon and not InWater then
+        return true
+    else
+        return false
+    end
+end
+
 --- Get New ToolID
 
 RegisterNetEvent('mms-lumberjack:client:UpdateItemId')
@@ -100,7 +126,7 @@ while true do
                     Choplumber:TogglePrompt(false)
                     Wait(200)
                     Choplumber:TogglePrompt(true)
-                    TriggerEvent('mms-lumberjack:client:Choplumber',ToolId)
+                    TriggerServerEvent('mms-lumberjack:server:CheckForTool',ToolId)
                 else
                     VORPcore.NotifyTip(_U('InHere') .. TownName .. _U('YouCantChop'),5000)
                 end
