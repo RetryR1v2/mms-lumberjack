@@ -32,6 +32,7 @@ AddEventHandler('mms-lumberjack:client:ToolOut',function(ItemId,UsedItem,MaxUses
         ForceEntityAiAndAnimationUpdate(Tool, 1)
         Citizen.InvokeNative(0x3A50753042B6891B, MyPed, "PITCH_FORKS")
         Toolout = true
+        TriggerEvent('mms-lumberjack:client:CheckCanWork')
     elseif Toolout then
         Wait(500)
         DeleteObject(Tool)
@@ -56,12 +57,12 @@ AddEventHandler('mms-lumberjack:client:RepairTool',function()
 end)
 
 -- Check Player Status
-Citizen.CreateThread(function()
-    local MyPed = PlayerPedId()
-    while true do
+RegisterNetEvent('mms-lumberjack:client:CheckCanWork')
+AddEventHandler('mms-lumberjack:client:CheckCanWork',function()
+    while Toolout do
         Citizen.Wait(5000)
         if Toolout then
-            CanDoWork = CanWork(MyPed)
+            CanDoWork = CanWork()
             if not CanDoWork then
                 TriggerEvent('mms-lumberjack:client:ToolOut')
             end
@@ -70,6 +71,7 @@ Citizen.CreateThread(function()
 end)
 
 function CanWork (MyPed)
+    local MyPed = PlayerPedId()
     local Dead = IsPedDeadOrDying(MyPed)
     local OnHorse = IsPedOnMount(MyPed)
     local OnWagon = IsPedOnVehicle(MyPed)
