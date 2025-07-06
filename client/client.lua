@@ -94,7 +94,7 @@ end)
 
 Citizen.CreateThread(function ()
     local ChoplumberPrompt = BccUtils.Prompts:SetupPromptGroup()
-    local Choplumber = ChoplumberPrompt:RegisterPrompt(_U('Chop'), 0x760A9C6F, 1, 1, true, 'hold', {timedeventhash = 'MEDIUM_TIMED_EVENT'})
+    local Choplumber = ChoplumberPrompt:RegisterPrompt(_U('Chop'), 0x760A9C6F, 1, 1, true, 'click') --, {timedeventhash = 'MEDIUM_TIMED_EVENT'})
 while true do
     Citizen.Wait(1500)
 
@@ -149,9 +149,11 @@ RegisterNetEvent('mms-lumberjack:client:Choplumber')
 AddEventHandler('mms-lumberjack:client:Choplumber',function(ToolId)
     Citizen.Wait(100)
     local MyPed = PlayerPedId()
+    FreezeEntityPosition(MyPed,true)
     Anim(MyPed, "amb_work@world_human_tree_chop_new@working@pre_swing@male_a@trans", "pre_swing_trans_after_swing",
     -1, 7)
     Progressbar(Config.ChopTime,_U('WorkingHere'))
+    FreezeEntityPosition(MyPed,false)
     TriggerServerEvent('mms-lumberjack:server:FinishChoppinglumber',ToolId,CurrentItem,CurrentItemMaxUses)
 end)
 
