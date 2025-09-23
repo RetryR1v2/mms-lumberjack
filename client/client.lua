@@ -13,6 +13,7 @@ local CurrentItem = nil
 local CurrentItemMaxUses = nil
 local InTown = false
 local TownName = nil
+local Working = false
 
 -- Axe out
 
@@ -116,7 +117,7 @@ while true do
                 Chopped = true
             end
         end
-        if Closelumber and not Chopped then
+        if Closelumber and not Chopped and not Working then
             sleep = false
             ChoplumberPrompt:ShowGroup(_U('Tree'))
             
@@ -147,6 +148,7 @@ end)
 
 RegisterNetEvent('mms-lumberjack:client:Choplumber')
 AddEventHandler('mms-lumberjack:client:Choplumber',function(ToolId)
+    Working = true
     Citizen.Wait(100)
     local MyPed = PlayerPedId()
     FreezeEntityPosition(MyPed,true)
@@ -155,6 +157,8 @@ AddEventHandler('mms-lumberjack:client:Choplumber',function(ToolId)
     Progressbar(Config.ChopTime,_U('WorkingHere'))
     FreezeEntityPosition(MyPed,false)
     TriggerServerEvent('mms-lumberjack:server:FinishChoppinglumber',ToolId,CurrentItem,CurrentItemMaxUses)
+    Citizen.Wait(500)
+    Working = false
 end)
 
 --- Refresh Them

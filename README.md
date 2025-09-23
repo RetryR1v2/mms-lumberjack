@@ -25,6 +25,7 @@
 - 1.1.6 BugFix
 - 1.1.7 Improved Mechanics
 - 1.1.8 Fixed Bug where it takes Durability if you dont get items.
+- 1.1.9 Added Exploit Protection ( Cant Spam G Anymore )
 
 # installation 
 
