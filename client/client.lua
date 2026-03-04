@@ -158,6 +158,7 @@ AddEventHandler('mms-lumberjack:client:Choplumber',function(ToolId)
     TriggerServerEvent('mms-lumberjack:server:FinishChoppinglumber',ToolId,CurrentItem,CurrentItemMaxUses)
     Citizen.Wait(500)
     Working = false
+    ClearPedTasksImmediately(MyPed)
 end)
 
 RegisterNetEvent('mms-lumberjack:client:ChoppingAnimation',function(MyPed)
